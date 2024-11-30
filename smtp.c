@@ -1789,9 +1789,7 @@ smtp_tls_init(struct smtp *const smtp,
                       SSL_OP_NO_TLSv1);
 
   SSL_CTX_set_mode(smtp->tls_ctx, SSL_MODE_AUTO_RETRY);
-  if((smtp->flags & SMTP_NO_CERT_VERIFY) == 0){
-    SSL_CTX_set_verify(smtp->tls_ctx, SSL_VERIFY_PEER, NULL);
-  }
+  SSL_CTX_set_verify(smtp->tls_ctx, SSL_VERIFY_PEER, NULL);
 
   /*
    * Set the path to the user-provided CA file or use the default cert paths
@@ -1837,19 +1835,17 @@ smtp_tls_init(struct smtp *const smtp,
   }
 
   /* Verify matching subject in certificate. */
-  if((smtp->flags & SMTP_NO_CERT_VERIFY) == 0){
-    if((X509_cert_peer = SSL_get_peer_certificate(smtp->tls)) == NULL){
-      SSL_CTX_free(smtp->tls_ctx);
-      SSL_free(smtp->tls);
-      return -1;
-    }
-    if(X509_check_host(X509_cert_peer, server, 0, 0, NULL) != 1){
-      SSL_CTX_free(smtp->tls_ctx);
-      SSL_free(smtp->tls);
-      return -1;
-    }
-    X509_free(X509_cert_peer);
+  if((X509_cert_peer = SSL_get_peer_certificate(smtp->tls)) == NULL){
+    SSL_CTX_free(smtp->tls_ctx);
+    SSL_free(smtp->tls);
+    return -1;
   }
+  if(X509_check_host(X509_cert_peer, server, 0, 0, NULL) != 1){
+    SSL_CTX_free(smtp->tls_ctx);
+    SSL_free(smtp->tls);
+    return -1;
+  }
+  X509_free(X509_cert_peer);
 
   smtp->tls_on = 1;
   return 0;

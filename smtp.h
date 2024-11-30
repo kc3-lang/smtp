@@ -208,8 +208,8 @@ enum smtp_flag{
    * has expired or if using a self-signed certificate. Either of those
    * conditions will cause the connection to fail. This option allows the
    * connection to proceed even if those checks fail.
-   */
   SMTP_NO_CERT_VERIFY = 1 << 1
+   */
 };
 
 struct smtp;
