@@ -40,7 +40,7 @@ OBJECTS_COV="$(c2ext .cov.lo "$SOURCES")"
 OBJECTS_DEBUG="$(c2ext .debug.lo "$SOURCES")"
 
 # Common config for all targets
-CPPFLAGS="-I.. $CPPFLAGS"
+CPPFLAGS="-I.. $CPPFLAGS -DSMTP_OPENSSL"
 CFLAGS="$CFLAGS -W -Wall -Werror -std=c11 -pedantic -pipe"
 LDFLAGS="-export-dynamic $LDFLAGS -rdynamic"
 config_asan
@@ -53,7 +53,7 @@ pkg_config libffi
 pkg_config libmd
 config_define PREFIX "\"${PREFIX}\""
 update_config_h
-LIBS="$LIBS -lm -rpath ${PREFIX}/lib"
+LIBS="$LIBS -lm -lssl -rpath ${PREFIX}/lib"
 if $HAVE_WIN32; then
     LIBS="$LIBS -lws2_32"
 fi
