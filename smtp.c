@@ -227,7 +227,7 @@ struct smtp{
  * @retval 1 Value wrapped.
  * @retval 0 Value did not wrap.
  */
-SMTP_LINKAGE int
+int
 smtp_si_add_size_t(const size_t a,
                    const size_t b,
                    size_t *const result) {
@@ -261,7 +261,7 @@ smtp_si_add_size_t(const size_t a,
  * @retval 1 Value wrapped.
  * @retval 0 Value did not wrap.
  */
-SMTP_LINKAGE int
+int
 smtp_si_sub_size_t(const size_t a,
                    const size_t b,
                    size_t *const result) {
@@ -295,7 +295,7 @@ smtp_si_sub_size_t(const size_t a,
  * @retval 1 Value wrapped.
  * @retval 0 Value did not wrap.
  */
-SMTP_LINKAGE int
+int
 smtp_si_mul_size_t(const size_t a,
                    const size_t b,
                    size_t *const result) {
@@ -432,7 +432,7 @@ smtp_str_getdelimfd_search_delim(const char *const buf,
  *            line buffer.
  * @retval -1 Failed to allocate memory for the new line buffer.
  */
-SMTP_LINKAGE int
+int
 smtp_str_getdelimfd_set_line_and_buf(struct str_getdelimfd *const gdfd,
                                      size_t copy_len) {
   size_t copy_len_inc;
@@ -464,7 +464,7 @@ smtp_str_getdelimfd_set_line_and_buf(struct str_getdelimfd *const gdfd,
  *
  * @param[in] gdfd Frees memory stored in this socket parsing structure.
  */
-SMTP_LINKAGE void
+void
 smtp_str_getdelimfd_free(struct str_getdelimfd *const gdfd) {
   free(gdfd->_buf);
   free(gdfd->line);
@@ -498,7 +498,7 @@ smtp_str_getdelimfd_throw_error(struct str_getdelimfd *const gdfd) {
  * @param[in] gdfd See @ref str_getdelimfd.
  * @return See @ref str_getdelim_retcode.
  */
-SMTP_LINKAGE enum str_getdelim_retcode
+enum str_getdelim_retcode
 smtp_str_getdelimfd(struct str_getdelimfd *const gdfd) {
   size_t delim_pos;
   long bytes_read;
@@ -574,7 +574,7 @@ smtp_str_getdelimfd(struct str_getdelimfd *const gdfd) {
  * @param[in] s2 Null-terminated source string to copy to @p s1.
  * @return Pointer to location in @p s1 after the last copied byte.
  */
-SMTP_LINKAGE char *
+char *
 smtp_stpcpy(char *s1,
             const char *s2) {
   size_t i;
@@ -597,7 +597,7 @@ smtp_stpcpy(char *s1,
  *               @p nmemb * @p size bytes.
  * @retval NULL  Failed to reallocate memory.
  */
-SMTP_LINKAGE void *
+void *
 smtp_reallocarray(void *ptr,
                   size_t nmemb,
                   size_t size) {
@@ -625,7 +625,7 @@ smtp_reallocarray(void *ptr,
  *               from @p s.
  * @retval NULL  Failed to allocate memory for the new duplicate string.
  */
-SMTP_LINKAGE char *
+char *
 smtp_strdup(const char *s) {
   char *dup;
   size_t dup_len;
@@ -654,7 +654,7 @@ smtp_strdup(const char *s) {
  *               memory when finished.
  * @retval NULL  Memory allocation failure.
  */
-SMTP_LINKAGE char *
+char *
 smtp_str_replace(const char *const search,
                  const char *const replace,
                  const char *const s) {
@@ -800,7 +800,7 @@ smtp_base64_encode_block(const char *const buf,
  *               must free this string when finished.
  * @retval NULL  Memory allocation failure.
  */
-SMTP_LINKAGE char *
+char *
 smtp_base64_encode(const char *const buf,
                    size_t buflen) {
   char *b64;
@@ -959,7 +959,7 @@ smtp_base64_decode_block(const unsigned char *const buf,
  * @retval >=0 Length of the data stored in the decode parameter.
  * @retval -1  Memory allocation failure or invalid base64 byte sequences.
  */
-SMTP_LINKAGE size_t
+size_t
 smtp_base64_decode(const char *const buf,
                    unsigned char **decode) {
   size_t buf_len;
@@ -1006,7 +1006,7 @@ smtp_base64_decode(const char *const buf,
  *               this memory when finished.
  * @retval NULL  Memory allocation or encoding error.
  */
-SMTP_LINKAGE char *
+char *
 smtp_bin2hex(const unsigned char *const s,
              size_t slen) {
   char *snew;
@@ -1053,7 +1053,7 @@ smtp_bin2hex(const unsigned char *const s,
  * @retval >0 Number of bytes for the current UTF-8 character sequence.
  * @retval -1 Invalid byte sequence.
  */
-SMTP_LINKAGE size_t
+size_t
 smtp_utf8_charlen(char c) {
   unsigned char uc;
 
@@ -1085,7 +1085,7 @@ smtp_utf8_charlen(char c) {
  * @retval 1 String contains non-ASCII UTF-8 characters.
  * @retval 0 String contains only ASCII characters.
  */
-SMTP_LINKAGE int
+int
 smtp_str_has_nonascii_utf8(const char *const s) {
   size_t i;
   size_t charlen;
@@ -1113,7 +1113,7 @@ smtp_str_has_nonascii_utf8(const char *const s) {
  * @retval maxlen    If length of s has more bytes than maxlen.
  * @retval -1        If @p s contains an invalid UTF-8 byte sequence.
  */
-SMTP_LINKAGE size_t
+size_t
 smtp_strnlen_utf8(const char *s,
                   size_t maxlen) {
   size_t i;
@@ -1154,7 +1154,7 @@ smtp_strnlen_utf8(const char *s,
  * @param[in] maxlen Number of bytes for each line in the string (soft limit).
  * @return Index in @p s.
  */
-SMTP_LINKAGE size_t
+size_t
 smtp_fold_whitespace_get_offset(const char *const s,
                                 unsigned int maxlen) {
   size_t i;
@@ -1225,7 +1225,7 @@ smtp_fold_whitespace_get_offset(const char *const s,
  *               separate lines. The caller must free this memory when done.
  * @retval NULL  Memory allocation failed.
  */
-SMTP_LINKAGE char *
+char *
 smtp_fold_whitespace(const char *const s,
                      unsigned int maxlen) {
   const char *const SMTP_LINE_FOLD_STR = "\r\n ";
@@ -1287,7 +1287,7 @@ smtp_fold_whitespace(const char *const s,
  *               separate chunks. The caller must free this memory when done.
  * @retval NULL  Memory allocation failure.
  */
-SMTP_LINKAGE char *
+char *
 smtp_chunk_split(const char *const s,
                  size_t chunklen,
                  const char *const end) {
@@ -1361,7 +1361,7 @@ smtp_chunk_split(const char *const s,
  *               when done.
  * @retval NULL Memory allocation or file read error.
  */
-SMTP_LINKAGE char *
+char *
 smtp_ffile_get_contents(FILE *stream,
                         size_t *bytes_read) {
   char *read_buf;
@@ -1414,7 +1414,7 @@ smtp_ffile_get_contents(FILE *stream,
  *         done.
  * @retval NULL Memory allocation or file read error.
  */
-SMTP_LINKAGE char *
+char *
 smtp_file_get_contents(const char *const filename,
                        size_t *bytes_read) {
   FILE *fp;
@@ -1442,7 +1442,7 @@ smtp_file_get_contents(const char *const filename,
  *                  into its separate components.
  * @return See @ref smtp_result_code.
  */
-SMTP_LINKAGE int
+int
 smtp_parse_cmd_line(char *const line,
                     struct smtp_command *const cmd) {
   char *ep;
@@ -1578,7 +1578,7 @@ smtp_read_and_parse_code(struct smtp *const smtp) {
  * @param[in] len Number of bytes in buf.
  * @return See @ref smtp_status_code.
  */
-SMTP_LINKAGE enum smtp_status_code
+enum smtp_status_code
 smtp_write(struct smtp *const smtp,
            const char *const buf,
            size_t len) {
@@ -2207,7 +2207,7 @@ smtp_initiate_handshake(struct smtp *const smtp,
  * @retval -1 Failed to establish the current date or an output
  *            format error occurred.
  */
-SMTP_LINKAGE int
+int
 smtp_date_rfc_2822(char *const date) {
   time_t t;
   time_t t_local;
@@ -2793,7 +2793,7 @@ smtp_header_cmp(const void *v1,
  * @retval  0 Successful validation.
  * @retval -1 Failed to validate.
  */
-SMTP_LINKAGE int
+int
 smtp_header_key_validate(const char *const key) {
   unsigned char uc;
   size_t i;
@@ -2823,7 +2823,7 @@ smtp_header_key_validate(const char *const key) {
  * @retval  0 Successful validation.
  * @retval -1 Failed to validate.
  */
-SMTP_LINKAGE int
+int
 smtp_header_value_validate(const char *const value) {
   size_t i;
   unsigned char uc;
@@ -2849,7 +2849,7 @@ smtp_header_value_validate(const char *const value) {
  * @retval  0 Successful validation.
  * @retval -1 Failed to validate.
  */
-SMTP_LINKAGE int
+int
 smtp_address_validate_email(const char *const email) {
   size_t i;
   unsigned char uc;
@@ -2874,7 +2874,7 @@ smtp_address_validate_email(const char *const email) {
  * @retval  0 Successful validation.
  * @retval -1 Failed to validate.
  */
-SMTP_LINKAGE int
+int
 smtp_address_validate_name(const char *const name) {
   size_t i;
   unsigned char uc;
@@ -2898,7 +2898,7 @@ smtp_address_validate_name(const char *const name) {
  * @retval  0 Successful validation.
  * @retval -1 Failed to validate.
  */
-SMTP_LINKAGE int
+int
 smtp_attachment_validate_name(const char *const name) {
   size_t i;
   unsigned char uc;
