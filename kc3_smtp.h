@@ -16,11 +16,11 @@
 #include "types.h"
 
 /* Heap-allocation functions, call kc3_smtp_close after use. */
-sw      kc3_smtp_close (u_ptr *smtp);
-u_ptr * kc3_smtp_open (const s_str *server, const s_str *port,
-                       const s_sym * const *security,
-                       const s_sym * const *flags,
-                       const s_str *cafile, u_ptr *dest);
+sw        kc3_smtp_close (u_ptr_w *smtp);
+u_ptr_w * kc3_smtp_open (const s_str *server, const s_str *port,
+                         const s_sym * const *security,
+                         const s_sym * const *flags,
+                         const s_str *cafile, u_ptr_w *dest);
 
 /* Operators. */
 

@@ -10,20 +10,23 @@
  * AUTHOR BE CONSIDERED LIABLE FOR THE USE AND PERFORMANCE OF
  * THIS SOFTWARE.
  */
+#include <libkc3/kc3.h>
 #include "kc3_smtp.h"
+#include "smtp.h"
 
 sw kc3_smtp_close (u_ptr_w *smtp)
 {
-  smtp_close(smtp->p);
+  return smtp_close(smtp->p);
 }
 
-u_ptr * kc3_smtp_open (const s_str *server, const s_str *port,
-                       const s_sym * const *security,
-                       const s_sym * const *flags,
-                       const s_str *cafile, u_ptr *dest)
+u_ptr_w * kc3_smtp_open (const s_str *server, const s_str *port,
+                         const s_sym * const *security,
+                         const s_sym * const *flags,
+                         const s_str *cafile, u_ptr_w *dest)
 {
   const char *ca = NULL;
   enum smtp_flag f = 0;
+  sw r;
   enum smtp_connection_security sec = 0;
   u_ptr_w tmp;
   if (*security == sym_1("none"))
@@ -50,7 +53,8 @@ u_ptr * kc3_smtp_open (const s_str *server, const s_str *port,
   }
   if (cafile->size)
     ca = cafile->ptr.pchar;
-  r = smtp_open(server->ptr.pchar, port->ptr.pchar, sec, f, ca, &tmp);
+  r = smtp_open(server->ptr.pchar, port->ptr.pchar, sec, f, ca,
+                (struct smtp **) &tmp.p);
   switch (r) {
   case SMTP_STATUS_OK:
     *dest = tmp;
