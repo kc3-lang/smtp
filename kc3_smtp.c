@@ -14,9 +14,21 @@
 #include "kc3_smtp.h"
 #include "smtp.h"
 
-sw kc3_smtp_close (u_ptr_w *smtp)
+bool kc3_smtp_close (u_ptr_w *smtp)
 {
-  return smtp_close(smtp->p);
+  sw r;
+  if (smtp->p) {
+    if ((r = smtp_close(smtp->p))) {
+      err_write_1("kc3_smtp_close: smtp_close: ");
+      err_inspect_sw_decimal(&r);
+      err_write_1("\n");
+      assert("kc3_smtp_close: smtp_close");
+      return false;
+    }
+    smtp->p = NULL;
+    return true;
+  }
+  return false;
 }
 
 u_ptr_w * kc3_smtp_open (const s_str *server, const s_str *port,
