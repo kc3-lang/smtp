@@ -14,21 +14,76 @@
 #include "kc3_smtp.h"
 #include "smtp.h"
 
+bool kc3_smtp_address_add (u_ptr_w *smtp, const s_sym * const *type,
+                           const s_str *email, const s_str *name)
+{
+  enum smtp_address_type address_type;
+  sw r;
+  assert(smtp);
+  assert(smtp->p);
+  if (*type == sym_1("from"))
+    address_type = SMTP_ADDRESS_FROM;
+  else if (*type == sym_1("to"))
+    address_type = SMTP_ADDRESS_TO;
+  else if (*type == sym_1("cc"))
+    address_type = SMTP_ADDRESS_CC;
+  else if (*type == sym_1("bcc"))
+    address_type = SMTP_ADDRESS_BCC;
+  else {
+    err_puts("kc3_smtp_address_add: invalid address type");
+    assert(! "kc3_smtp_address_add: invalid address type");
+    return false;
+  }
+  if ((r = smtp_address_add(smtp->p, address_type, email->ptr.pchar,
+                            name->ptr.pchar))) {
+    err_write_1("kc3_smtp_address_add: smtp_address_add: ");
+    err_inspect_sw_decimal(&r);
+    err_write_1("\n");
+    assert("kc3_smtp_address_add: smtp_address_add");
+    return false;
+  }
+  return true;
+}
+
 bool kc3_smtp_close (u_ptr_w *smtp)
 {
   sw r;
-  if (smtp->p) {
-    if ((r = smtp_close(smtp->p))) {
-      err_write_1("kc3_smtp_close: smtp_close: ");
-      err_inspect_sw_decimal(&r);
-      err_write_1("\n");
-      assert("kc3_smtp_close: smtp_close");
-      return false;
-    }
-    smtp->p = NULL;
-    return true;
+  assert(smtp);
+  assert(smtp->p);
+  if ((r = smtp_close(smtp->p))) {
+    err_write_1("kc3_smtp_close: smtp_close: ");
+    err_inspect_sw_decimal(&r);
+    err_write_1("\n");
+    assert("kc3_smtp_close: smtp_close");
+    return false;
   }
-  return false;
+  return true;
+}
+
+bool kc3_smtp_header_add (u_ptr_w *smtp, const s_str *name,
+                          const s_str *value)
+{
+  sw r;
+  assert(smtp);
+  assert(smtp->p);
+  if ((r = smtp_header_add(smtp->p, name->ptr.pchar,
+                           value->ptr.pchar))) {
+    err_puts("kc3_smtp_header_add: smtp_header_add");
+    assert(! "kc3_smtp_header_add: smtp_header_add");
+    return false;
+  }
+  return true;
+}
+
+bool kc3_smtp_mail (u_ptr_w *smtp, const s_str *body)
+{
+  sw r;
+  if ((r = smtp_mail(smtp->p, body->ptr.pchar))) {
+    err_puts("kc3_smtp_mail: smtp_mail");
+    assert(! "kc3_smtp_mail: smtp_mail");
+    return false;
+  }
+  return true;
 }
 
 u_ptr_w * kc3_smtp_open (const s_str *server, const s_str *port,
