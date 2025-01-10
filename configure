@@ -51,6 +51,7 @@ pkg_config libbsd-overlay
 pkg_config libevent
 pkg_config libffi
 pkg_config libmd
+pkg_config openssl
 config_define PREFIX "\"${PREFIX}\""
 update_config_h
 LIBS="$LIBS -lm -lssl -rpath ${PREFIX}/lib"
