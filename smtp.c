@@ -22,7 +22,7 @@
  * </a>.
  */
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(WIN32) || defined(WIN64)
 # define SMTP_IS_WINDOWS
 #endif /* SMTP_IS_WINDOWS */
 
@@ -334,7 +334,7 @@ smtp_str_getdelimfd_read_timeout(struct smtp *const smtp) {
   int sel_rc;
 
   FD_ZERO(&readfds);
-  FD_SET(smtp->sock, &readfds);
+  FD_SET((unsigned long) smtp->sock, &readfds);
   timeout.tv_sec  = smtp->timeout_sec;
   timeout.tv_usec = 0;
   sel_rc = select(smtp->sock + 1, &readfds, NULL, NULL, &timeout);
