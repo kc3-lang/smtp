@@ -1,6 +1,9 @@
+*~
+*.a
 .build*
 build_*
 config.*
 *.la
 .libs
 *.lo
+*.o
