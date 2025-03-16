@@ -2,6 +2,7 @@
 *.a
 .build*
 build_*
+.config.*
 config.*
 *.la
 .libs
