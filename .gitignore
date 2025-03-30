@@ -4,6 +4,9 @@
 build_*
 .config.*
 config.*
+*.css
+*.gcno
+*.html
 *.la
 .libs
 *.lo
