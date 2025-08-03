@@ -37,7 +37,7 @@ bool kc3_smtp_address_add (u_ptr_w *smtp, const s_sym * const *type,
   if ((r = smtp_address_add(smtp->p, address_type, email->ptr.pchar,
                             name->ptr.pchar))) {
     err_write_1("kc3_smtp_address_add: smtp_address_add: ");
-    err_inspect_sw_decimal(&r);
+    err_inspect_sw_decimal(r);
     err_write_1("\n");
     assert("kc3_smtp_address_add: smtp_address_add");
     return false;
@@ -52,7 +52,7 @@ bool kc3_smtp_close (u_ptr_w *smtp)
   assert(smtp->p);
   if ((r = smtp_close(smtp->p))) {
     err_write_1("kc3_smtp_close: smtp_close: ");
-    err_inspect_sw_decimal(&r);
+    err_inspect_sw_decimal(r);
     err_write_1("\n");
     assert("kc3_smtp_close: smtp_close");
     return false;
