@@ -54,7 +54,7 @@ pkg_config libmd
 pkg_config openssl
 config_define PREFIX "\"${PREFIX}\""
 update_config_h
-LIBS="$LIBS -lm -lssl -rpath ${PREFIX}/lib"
+LIBS="$LIBS -lm -rpath ${PREFIX}/lib"
 if $HAVE_WIN32; then
     LIBS="$LIBS -lws2_32"
 fi
