@@ -13,6 +13,6 @@
 #ifndef SMTP_TYPES_H
 #define SMTP_TYPES_H
 
-#include <libkc3/types.h>
+#include "../libkc3/types.h"
 
 #endif /* SMTP_TYPES_H */
