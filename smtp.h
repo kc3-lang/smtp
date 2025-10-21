@@ -471,7 +471,6 @@ smtp_attachment_add_mem(struct smtp *const smtp,
 void
 smtp_attachment_clear_all(struct smtp *const smtp);
 
-
 /*
  * The SMTP_INTERNAL DEFINE section contains definitions that get used
  * internally by the SMTP client library.
