@@ -56,8 +56,9 @@ pkg_config libbsd-overlay
 pkg_config libevent
 pkg_config libffi
 pkg_config libmd
-pkg_config ssl
+pkg_config openssl
 config_lib ssl -lssl
+config_lib crypto -lcrypto
 config_define PREFIX "\"${PREFIX}\""
 LIBS="$LIBS -lm -rpath ${PREFIX}/lib"
 if $HAVE_WIN32; then
