@@ -8,7 +8,6 @@ config.*
 *.css
 *.gcno
 *.html
-*.la
-.libs
-*.lo
 *.o
+*.so
+*.so.*
