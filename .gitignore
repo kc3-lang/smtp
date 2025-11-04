@@ -6,6 +6,7 @@ build_*
 .config.*
 config.*
 *.css
+*.dll
 *.dylib
 *.gcno
 *.html
