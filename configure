@@ -42,7 +42,6 @@ OBJECTS_DEBUG="$(c2ext .debug.o "$SOURCES")"
 CPPFLAGS="$CPPFLAGS -DSMTP_OPENSSL -DPIC"
 CFLAGS="$CFLAGS -W -Wall -Werror -std=c11 -pedantic -pipe -fPIC"
 CFLAGS="$CFLAGS -Wno-#warnings"
-LDFLAGS="$LDFLAGS -rpath ${PREFIX}/lib"
 LDFLAGS="$LDFLAGS -L../libkc3"
 LDFLAGS="$LDFLAGS -L../socket"
 LDFLAGS="$LDFLAGS -L../tls"
@@ -61,10 +60,15 @@ pkg_config openssl
 config_lib ssl -lssl
 config_lib crypto -lcrypto
 config_define PREFIX "\"${PREFIX}\""
-LIBS="$LIBS -lm -rpath ${PREFIX}/lib"
 if $HAVE_WIN32; then
     LIBS="$LIBS -lws2_32"
 fi
+case "$(uname -s)" in
+    MINGW64*)
+        ;;
+    *)
+        LIBS="$LIBS -rpath ${PREFIX}/lib"
+esac
 
 # Address Sanitizer config
 CPPFLAGS_ASAN="$CPPFLAGS"
