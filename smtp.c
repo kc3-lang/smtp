@@ -1750,16 +1750,9 @@ smtp_tls_init(struct smtp *const smtp,
               const char *const server) {
   X509 *X509_cert_peer;
 
-  /* Do not need to check the return value since this always returns 1. */
-  SSL_library_init();
+  OPENSSL_init_ssl(0, NULL);
 
-  SSL_load_error_strings();
-#if OPENSSL_VERSION_NUMBER < 0x30000000L || defined(LIBRESSL_VERSION_NUMBER)
-  ERR_load_BIO_strings();
-#endif
-  OpenSSL_add_all_algorithms();
-
-  if ((smtp->tls_ctx = SSL_CTX_new(SSLv23_client_method())) == NULL) {
+  if ((smtp->tls_ctx = SSL_CTX_new(TLS_client_method())) == NULL) {
     return -1;
   }
 
@@ -1816,7 +1809,7 @@ smtp_tls_init(struct smtp *const smtp,
   }
 
   /* Verify matching subject in certificate. */
-  if ((X509_cert_peer = SSL_get_peer_certificate(smtp->tls)) == NULL) {
+  if ((X509_cert_peer = SSL_get1_peer_certificate(smtp->tls)) == NULL) {
     SSL_CTX_free(smtp->tls_ctx);
     SSL_free(smtp->tls);
     return -1;
