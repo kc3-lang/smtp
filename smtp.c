@@ -1809,7 +1809,7 @@ smtp_tls_init(struct smtp *const smtp,
   }
 
   /* Verify matching subject in certificate. */
-  if ((X509_cert_peer = SSL_get1_peer_certificate(smtp->tls)) == NULL) {
+  if ((X509_cert_peer = SSL_get_peer_certificate(smtp->tls)) == NULL) {
     SSL_CTX_free(smtp->tls_ctx);
     SSL_free(smtp->tls);
     return -1;
