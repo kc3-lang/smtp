@@ -39,7 +39,7 @@ OBJECTS_COV="$(c2ext .cov.o "$SOURCES")"
 OBJECTS_DEBUG="$(c2ext .debug.o "$SOURCES")"
 
 # Common config for all targets
-CPPFLAGS="$CPPFLAGS -DSMTP_OPENSSL -DPIC"
+CPPFLAGS="$CPPFLAGS -DSMTP_OPENSSL=1 -DPIC"
 CFLAGS="$CFLAGS -W -Wall -Werror -std=c11 -pedantic -pipe -fPIC"
 CFLAGS="$CFLAGS -Wno-#warnings"
 LDFLAGS="$LDFLAGS -L${BUILD_TOP}/libkc3"
@@ -57,8 +57,10 @@ pkg_config libevent
 pkg_config libffi
 pkg_config libmd
 pkg_config openssl
-config_lib ssl -lssl
-config_lib crypto -lcrypto
+if ! $HAVE_openssl; then
+    config_lib ssl -lssl
+    config_lib crypto -lcrypto
+fi
 config_define PREFIX "\"${PREFIX}\""
 if $HAVE_WIN32; then
     LIBS="$LIBS -lws2_32"

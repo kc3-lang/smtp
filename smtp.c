@@ -45,7 +45,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#ifdef SMTP_OPENSSL
+#if SMTP_OPENSSL
 # include <openssl/bio.h>
 # include <openssl/err.h>
 # include <openssl/ssl.h>
